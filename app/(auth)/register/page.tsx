@@ -41,7 +41,7 @@ export default function RegisterPage() {
       setLoading(false);
     } else {
       // Assuming auto-login is active for this dev environment
-      router.push("/dashboard");
+      router.push("/inicio");
       router.refresh();
     }
   };

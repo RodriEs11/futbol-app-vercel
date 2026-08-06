@@ -7,12 +7,9 @@ import { Calendar, Home, MapPin, Users, BarChart2, User } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 export const navItems = [
-  { name: "Dashboard", href: "/dashboard", icon: Home },
-  { name: "Partidos", href: "/matches", icon: Calendar },
-  { name: "Canchas", href: "/venues", icon: MapPin },
-  { name: "Jugadores", href: "/players", icon: Users },
-  { name: "Estadísticas", href: "/statistics", icon: BarChart2 },
-  { name: "Mi Perfil", href: "/profile", icon: User },
+  { name: "Inicio", href: "/inicio", icon: Home },
+  { name: "Partidos", href: "/partidos", icon: Calendar },
+  { name: "Jugadores", href: "/jugadores", icon: Users },
 ];
 
 export function Sidebar() {
@@ -22,7 +19,7 @@ export function Sidebar() {
     <aside className="hidden w-64 flex-col border-r bg-card md:flex">
       <div className="flex h-14 items-center border-b px-6">
         <Link href="/" className="flex items-center gap-2 font-bold text-primary">
-          <span className="text-xl">FUTGO</span>
+          <span className="text-xl">TUKAS</span>
         </Link>
       </div>
       <nav className="flex-1 space-y-1 p-4">

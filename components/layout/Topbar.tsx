@@ -35,11 +35,11 @@ export function Topbar() {
           <SheetContent side="left" className="w-64 p-0">
             <div className="sr-only">
               <SheetTitle>Menú de navegación</SheetTitle>
-              <SheetDescription>Accede a las distintas secciones de Futgo</SheetDescription>
+              <SheetDescription>Accede a las distintas secciones de Tukas</SheetDescription>
             </div>
             <div className="flex h-14 items-center border-b px-6">
               <Link href="/" className="flex items-center gap-2 font-bold text-primary">
-                <span className="text-xl">FUTGO</span>
+                <span className="text-xl">TUKAS</span>
               </Link>
             </div>
             <nav className="flex flex-col gap-1 p-4">
@@ -86,7 +86,7 @@ export function Topbar() {
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">Mi Perfil</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  jugador@futgo.com
+                  jugador@tukas.app
                 </p>
               </div>
             </DropdownMenuLabel>

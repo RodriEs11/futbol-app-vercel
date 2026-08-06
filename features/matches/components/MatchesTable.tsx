@@ -55,7 +55,7 @@ export function MatchesTable({ matches }: { matches: any[] }) {
                 {match.price ? `$${match.price}` : "-"}
               </TableCell>
               <TableCell className="text-right">
-                <Link href={`/matches/${match.id}`} className="text-primary hover:underline text-sm font-medium">
+                <Link href={`/partidos/${match.id}`} className="text-primary hover:underline text-sm font-medium">
                   Ver detalles
                 </Link>
               </TableCell>

@@ -10,14 +10,14 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "FutGo — Organizá tus partidos",
-    template: "%s · FutGo",
+    default: "Tukas — Organizá tus partidos",
+    template: "%s · Tukas",
   },
   description:
     "Plataforma para organizar partidos de fútbol amateur entre amigos: convocatorias, resultados y estadísticas.",
   metadataBase: new URL("https://futgo.app"),
   openGraph: {
-    title: "FutGo",
+    title: "Tukas",
     description:
       "Organizá partidos, convocá jugadores y llevá las estadísticas de tu grupo.",
     type: "website",

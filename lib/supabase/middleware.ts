@@ -35,7 +35,9 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const isPrivateRoute =
-    request.nextUrl.pathname.startsWith("/dashboard") ||
+    request.nextUrl.pathname.startsWith("/inicio") ||
+    request.nextUrl.pathname.startsWith("/partidos") ||
+    request.nextUrl.pathname.startsWith("/jugadores") ||
     request.nextUrl.pathname.startsWith("/admin");
 
   if (!user && isPrivateRoute) {
