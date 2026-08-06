@@ -1,8 +1,47 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { AddPlayerDialog } from "@/features/players/components/AddPlayerDialog";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
+import type { Database } from "@/types/database.types";
 
-export default function JugadoresPage() {
+export default async function JugadoresPage() {
+  const cookieStore = await cookies();
+  const supabase = createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+      },
+    }
+  );
+
+  // Intentamos obtener de la vista primero
+  let { data: players, error } = await supabase.from("player_stats_view" as any).select("*");
+
+  // Si hay error (ej: la vista no existe porque no corrieron el SQL), hacemos un fallback a la tabla players
+  if (error || !players) {
+    const { data: fallbackPlayers } = await supabase.from("players").select("*").order("created_at", { ascending: false });
+    if (fallbackPlayers) {
+      players = fallbackPlayers.map(p => ({
+        player_id: p.id,
+        first_name: p.first_name,
+        last_name: p.last_name,
+        nickname: p.nickname,
+        pj: 0,
+        pg: 0,
+        pe: 0,
+        pp: 0,
+        g: 0,
+        pts: 0
+      }));
+    }
+  }
+
+  const playerList = players || [];
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -10,15 +49,12 @@ export default function JugadoresPage() {
           <h1 className="text-3xl font-bold tracking-tight">Jugadores</h1>
           <p className="text-muted-foreground">Estadísticas individuales</p>
         </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Agregar Jugador
-        </Button>
+        <AddPlayerDialog />
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Listado de Jugadores</CardTitle>
+          <CardTitle>Listado de Jugadores ({playerList.length})</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -34,15 +70,27 @@ export default function JugadoresPage() {
                 </tr>
               </thead>
               <tbody>
-                {/* Acá irían los datos de la DB (player_stats_view) */}
-                <tr className="border-b">
-                  <td className="px-4 py-3 font-medium">Jugador Ejemplo</td>
-                  <td className="px-4 py-3 text-center">10</td>
-                  <td className="px-4 py-3 text-center font-bold">8</td>
-                  <td className="px-4 py-3 text-center text-green-600">5</td>
-                  <td className="px-4 py-3 text-center text-yellow-600">2</td>
-                  <td className="px-4 py-3 text-center text-red-600">3</td>
-                </tr>
+                {playerList.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
+                      No hay jugadores registrados todavía.
+                    </td>
+                  </tr>
+                ) : (
+                  playerList.map((player: any) => (
+                    <tr key={player.player_id} className="border-b hover:bg-muted/50 transition-colors">
+                      <td className="px-4 py-3 font-medium">
+                        {player.first_name} {player.last_name}
+                        {player.nickname && <span className="ml-1 text-muted-foreground font-normal">"{player.nickname}"</span>}
+                      </td>
+                      <td className="px-4 py-3 text-center">{player.pj}</td>
+                      <td className="px-4 py-3 text-center font-bold">{player.g}</td>
+                      <td className="px-4 py-3 text-center text-green-600">{player.pg}</td>
+                      <td className="px-4 py-3 text-center text-yellow-600">{player.pe}</td>
+                      <td className="px-4 py-3 text-center text-red-600">{player.pp}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

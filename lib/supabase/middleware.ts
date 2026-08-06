@@ -40,9 +40,16 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/jugadores") ||
     request.nextUrl.pathname.startsWith("/admin");
 
-  if (!user && isPrivateRoute) {
+  if (!user && (isPrivateRoute || request.nextUrl.pathname === "/")) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
+
+  // Si el usuario está logueado y entra a la raíz o a /login, llevarlo a /inicio
+  if (user && (request.nextUrl.pathname === "/" || request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/register")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/inicio";
     return NextResponse.redirect(url);
   }
 
