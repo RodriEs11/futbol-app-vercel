@@ -16,7 +16,7 @@ export type Json =
 
 export interface Database {
   public: {
-    Tables: Record<string, { Row: Record<string, unknown> }>;
+    Tables: Record<string, { Row: Record<string, any> }>;
     Enums: Record<string, string>;
   };
 }
