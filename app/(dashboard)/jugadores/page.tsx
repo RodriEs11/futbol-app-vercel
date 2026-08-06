@@ -20,7 +20,8 @@ export default async function JugadoresPage() {
 
   // Intentamos obtener de la vista primero
   const { data: initialPlayers, error } = await supabase.from("player_stats_view" as never).select("*");
-  let players = initialPlayers;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let players: any[] | null = initialPlayers;
 
   // Si hay error (ej: la vista no existe porque no corrieron el SQL), hacemos un fallback a la tabla players
   if (error || !players) {
