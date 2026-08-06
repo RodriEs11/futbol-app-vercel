@@ -4,8 +4,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
-export default function MatchDetailsPage({ params }: { params: { id: string } }) {
-  // Aquí se conectarían los datos a Supabase utilizando params.id
+export default async function MatchDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  // Aquí se conectarían los datos a Supabase utilizando id
   
   return (
     <div className="space-y-6">
