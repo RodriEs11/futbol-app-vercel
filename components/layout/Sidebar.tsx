@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calendar, Home, MapPin, Users, BarChart2, User } from "lucide-react";
+import { Calendar, Home, Users } from "lucide-react";
 
 import { cn } from "@/lib/utils/cn";
 

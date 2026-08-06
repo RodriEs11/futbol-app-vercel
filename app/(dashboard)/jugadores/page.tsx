@@ -19,7 +19,8 @@ export default async function JugadoresPage() {
   );
 
   // Intentamos obtener de la vista primero
-  let { data: players, error } = await supabase.from("player_stats_view" as any).select("*");
+  const { data: initialPlayers, error } = await supabase.from("player_stats_view" as never).select("*");
+  let players = initialPlayers;
 
   // Si hay error (ej: la vista no existe porque no corrieron el SQL), hacemos un fallback a la tabla players
   if (error || !players) {
@@ -77,11 +78,11 @@ export default async function JugadoresPage() {
                     </td>
                   </tr>
                 ) : (
-                  playerList.map((player: any) => (
+                  playerList.map((player: { player_id: string; first_name: string; last_name: string; nickname?: string; pj: number; pg: number; pe: number; pp: number; g: number; pts: number; }) => (
                     <tr key={player.player_id} className="border-b hover:bg-muted/50 transition-colors">
                       <td className="px-4 py-3 font-medium">
                         {player.first_name} {player.last_name}
-                        {player.nickname && <span className="ml-1 text-muted-foreground font-normal">"{player.nickname}"</span>}
+                        {player.nickname && <span className="ml-1 text-muted-foreground font-normal">&quot;{player.nickname}&quot;</span>}
                       </td>
                       <td className="px-4 py-3 text-center">{player.pj}</td>
                       <td className="px-4 py-3 text-center font-bold">{player.g}</td>
